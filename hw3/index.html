@@ -1,7 +1,762 @@
-<html>
-	<head>
-	</head>
-	<body>
-		Homework 3 index.html here
-	</body>
-</html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Project 3: PathTracer</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5eb8d1af-32d3-46d0-9ee7-f304c460aeb6" class="page sans"><header><h1 class="page-title">Project 3: PathTracer</h1><p class="page-description"></p></header><div class="page-body"><p id="db3faeff-cb8c-47d4-89db-3ae17b2920df" class=""><em>Brandon Wong: </em><a href="https://cal-cs184-student.github.io/hw-webpages-sp24-brandogn/">https://cal-cs184-student.github.io/hw-webpages-sp24-brandogn/</a> </p><p id="1fa5d27b-0198-47e1-b1f1-8376133e5d6b" class=""><em>Gaurav Tyagi: </em><a href="https://cal-cs184-student.github.io/hw-webpages-sp24-GauravTyagi03/">https://cal-cs184-student.github.io/hw-webpages-sp24-GauravTyagi03/</a></p><hr id="60091a9d-5984-47d6-aa85-c993f5da58f1"/><p id="a37b0642-3f7a-4637-8daf-2b8259eb1b41" class="">
+</p><h2 id="47ec61cd-3927-40c3-b0de-1c3279ff344e" class="">Overview</h2><p id="22c918bb-a4b3-41cd-ad5c-f244d583436b" class="">In this project, we implemented a simple ray tracer with diffuse BSDF materials. The main goal of ray tracing is to generate a photo-realistic image using computer simulation of light rays inspired by how light travels in the physical world.</p><p id="b095bc41-aa8c-491e-91ff-d62eb4798a7d" class="">The first part of the ray tracing pipeline was ray generation and scene intersection, in which we followed a lot of the math provided in lecture and in the spec to formulate our algorithms for these parts. </p><p id="097bf3f6-fd0e-49ea-8324-a47724997062" class="">The second part was accelerating our ray tracer by organizing the primitives into different bounding boxes to reduce the number of intersection calculations per ray. We approached this problem by white boarding out the math visually, which helped a lot in constructing our algorithm.</p><p id="08411b16-f9cc-4a93-a3c5-e1abd8a89d7f" class="">The third part was direct illumination. We used a lot of inspiration from the slides for the general algorithm, and then used the tips provided by the spec to find the right methods to use for the values in our general algorithm.</p><p id="c55c6367-2c47-4b31-8185-9fede5f331d1" class="">The fourth part was global illumination, or all of the indirect illumination that contributes to the scene. We followed a similar approach to the third part.</p><p id="8ae09b9d-d3cf-4095-852c-5149601b49e7" class="">The fifth part was adaptive sampling, which accelerated our ray tracer slightly, as we didn’t need to calculate as many samples for pixels which converged quickly. We also followed a similar approach to the third part.</p><h1 id="ec8261a3-0a70-4fb6-85da-6b9cef2f1d84" class="">Part 1: Ray Generation and Scene Intersection</h1><p id="57a8b767-1693-4fb2-bef6-efedf7e054e3" class=""><strong>Ray generation</strong>:</p><ul id="537fafc3-285a-4389-93a1-f5f544afcbf0" class="bulleted-list"><li style="list-style-type:disc">Goal: to generate rays for each pixel in our camera, where each ray is an origin with a directional unit vector in world space.</li></ul><ul id="e796f8b4-bd77-4e6d-bd01-e4a76fbe126f" class="bulleted-list"><li style="list-style-type:disc">We generate rays by translating each <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x,y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> in image space to vectors that start at the camera’s position and point to the corresponding <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x,y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> in camera space, then translating from camera space to world space using the rotational matrix and then translating it by the camera position.<ul id="b995b74d-5bb8-4524-bee8-e10d3c8bc7b6" class="bulleted-list"><li style="list-style-type:circle">First we normalize each coordinate by dividing <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span></span><span>﻿</span></span> by the width and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span></span><span>﻿</span></span> by the height, then subtracting 0.5 from both and multiplying by 2.</li></ul><ul id="0c64c516-5f6e-42ab-8f05-c89b8f74f18c" class="bulleted-list"><li style="list-style-type:circle">Then, we can scale by <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>tan</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>v</mi><mi>f</mi><mi>o</mi><mi>v</mi><mi mathvariant="normal">/</mi><mn>2</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\tan (vfov  / 2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">tan</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord">/2</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>tan</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>h</mi><mi>f</mi><mi>o</mi><mi>v</mi><mi mathvariant="normal">/</mi><mn>2</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\tan (hfov  / 2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">tan</span><span class="mopen">(</span><span class="mord mathnormal">h</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord">/2</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> to find our <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span></span><span>﻿</span></span> and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span></span><span>﻿</span></span> values, then set the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi></mrow><annotation encoding="application/x-tex">z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span></span></span></span></span><span>﻿</span></span> value to <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">1</span></span></span></span></span><span>﻿</span></span>. This new vector will be the direction of the ray.</li></ul><ul id="f1a3be0b-972f-417e-9efa-f05a674f88cd" class="bulleted-list"><li style="list-style-type:circle">Lastly, our position of the ray will simply be the position of the camera.</li></ul></li></ul><p id="6e208348-4e92-427e-8298-924106ba4218" class="">
+</p><p id="df6c2a15-168b-4a2b-bfee-30d6592ec0f4" class=""><strong>Primitive intersection</strong>:</p><ul id="0dd672ec-c3f4-4134-83b9-91a15305ca44" class="bulleted-list"><li style="list-style-type:disc">Goal: to figure out the closest primitive (triangle or sphere) that some ray intersects that is in bounds of the camera’s nClip and fClip.</li></ul><ul id="491e0552-6925-4a1c-b312-0435ea0e55cc" class="bulleted-list"><li style="list-style-type:disc">Given a ray defined by <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mo>+</mo><mi>t</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">o + td</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">o</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">d</span></span></span></span></span><span>﻿</span></span>, we solve for the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span></span><span>﻿</span></span> that results in a point that intersects with some primitive. For example, a triangle can be defined by a plane, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>:</mo><mo stretchy="false">(</mo><mi>p</mi><mo>−</mo><mi>p</mi><mtext>’</mtext><mo stretchy="false">)</mo><mo>⋅</mo><mi>N</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">p: (p - p’) \cdot N = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">p</span><span class="mord">’</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span></span><span>﻿</span></span>, so we would plug in <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>o</mi><mo>+</mo><mi>t</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">p = o + td</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">o</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal">d</span></span></span></span></span><span>﻿</span></span> and solve for <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span></span><span>﻿</span></span>. We can do something similar for a sphere defined by <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>:</mo><mo stretchy="false">(</mo><mi>p</mi><mo>−</mo><mi>c</mi><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo>−</mo><msup><mi>R</mi><mn>2</mn></msup><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">p : (p - c) ^2 - R^2 = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal">c</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span></span><span>﻿</span></span>.</li></ul><p id="e0d274e9-a1d3-40a5-b3ee-28f4cf35efc6" class="">
+</p><p id="c2098b59-877d-4cda-b587-e1610f844d3b" class=""><strong>Algorithm for triangle intersection</strong>:</p><ul id="6e4b666e-7417-4cf3-a0ab-9ffab77d7dda" class="bulleted-list"><li style="list-style-type:disc">We used the Möller–Trumbore Algorithm which is essentially solving for the value <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span></span><span>﻿</span></span> and two of the three barycentric coordinates <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">b_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">b_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> in the equation: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>O</mi><mo>⃗</mo></mover><mo>+</mo><mi>t</mi><mover accent="true"><mi>d</mi><mo>⃗</mo></mover><mo>=</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>b</mi><mn>1</mn></msub><mo>−</mo><msub><mi>b</mi><mn>2</mn></msub><mo stretchy="false">)</mo><mover accent="true"><msub><mi>P</mi><mn>0</mn></msub><mo>⃗</mo></mover><mo>+</mo><msub><mi>b</mi><mn>1</mn></msub><mover accent="true"><msub><mi>P</mi><mn>1</mn></msub><mo>⃗</mo></mover><mo>+</mo><msub><mi>b</mi><mn>2</mn></msub><mover accent="true"><msub><mi>P</mi><mn>2</mn></msub><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">\vec{O} + t \vec{d} = (1 - b_1 - b_2) \vec{P_0} + b_1 \vec{P_1} + b_2 \vec{P_2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0497em;vertical-align:-0.0833em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9663em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span><span style="top:-3.2523em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1522em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9774em;"></span><span class="mord mathnormal">t</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9774em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">d</span></span><span style="top:-3.2634em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.0688em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.2163em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9663em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span style="top:-3.2523em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2355em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z'/></svg></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1163em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9663em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span style="top:-3.2523em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2355em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z'/></svg></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1163em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9663em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span style="top:-3.2523em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2355em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z'/></svg></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, which is essentially plugging in all the values using <code>p1</code>, and <code>p2</code>, and <code>p3</code> of our triangle, and <code>r.o</code> and <code>r.d</code> of our ray. </li></ul><figure id="4353ee8e-0233-41c3-9bc6-e18c5185186a" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/Untitled.png"><img style="width:336px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/Untitled.png"/></a></figure><p id="18d650f3-f5b5-4afe-8d6c-93eae5e28a9b" class="">
+</p><ul id="18b0ae5b-1616-4192-894f-f3fd7008da54" class="bulleted-list"><li style="list-style-type:disc">Then, after solving for <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span></span><span>﻿</span></span> and the barycentric coordinates, we ensure that <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span></span><span>﻿</span></span> is within bounds (<code>t &gt; r.max_t || t &lt; r.min_t || t &lt; 0</code>), and we also check that the actual point at <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span></span><span>﻿</span></span>, (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>o</mi><mo>⃗</mo></mover><mo>+</mo><mi>t</mi><mover accent="true"><mi>d</mi><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">\vec{o} + t \vec{d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7973em;vertical-align:-0.0833em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.714em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">o</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1799em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9774em;"></span><span class="mord mathnormal">t</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9774em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">d</span></span><span style="top:-3.2634em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.0688em;"><span class="overlay" style="height:0.714em;width:0.471em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.471em' height='0.714em' style='width:0.471em' viewBox='0 0 471 714' preserveAspectRatio='xMinYMin'><path d='M377 20c0-5.333 1.833-10 5.5-14S391 0 397 0c4.667 0 8.667 1.667 12 5
+3.333 2.667 6.667 9 10 19 6.667 24.667 20.333 43.667 41 57 7.333 4.667 11
+10.667 11 18 0 6-1 10-3 12s-6.667 5-14 9c-28.667 14.667-53.667 35.667-75 63
+-1.333 1.333-3.167 3.5-5.5 6.5s-4 4.833-5 5.5c-1 .667-2.5 1.333-4.5 2s-4.333 1
+-7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
+H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
+c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>) , intersects the triangle using the barycentric coordinates (<code>a &lt; 0 || b &lt; 0 || a + b &gt; 1</code>) where <code>a</code> is alpha, or <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">b_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, and <code>b</code> is beta, or <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">b_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>.</li></ul><ul id="d7480732-7c5d-4c4a-83bd-d7e81aae82c1" class="bulleted-list"><li style="list-style-type:disc">We can then update the <code>max_t</code> with the new <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi></mrow><annotation encoding="application/x-tex">t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span></span></span></span></span><span>﻿</span></span> value to ensure that future plane intersections are ignored if they are further away.</li></ul><p id="17ab40fd-ffd3-4cf1-b86a-ed9e7cb343cf" class="">
+</p><p id="aa4c41a8-d7e7-48a0-ac91-ec89816d4ebc" class=""><strong>Images </strong>(shaded by normal):</p><div id="63323b08-c3cd-478d-90d8-9a42283656ab" class="column-list"><div id="d1e3e7d0-eafb-46a1-b3e3-31c35d106ed3" style="width:50%" class="column"><figure id="8050757a-0650-4a10-9501-452551e05e4e" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/CBempty.png"><img style="width:800px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/CBempty.png"/></a></figure><p id="5f0cbb1f-68d7-4c05-b8f3-c8e1f80b91a5" class=""><code>empty.dae</code></p><figure id="8d228b7f-7efc-4588-b2d6-99fba11b6527" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/teapot.png"><img style="width:800px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/teapot.png"/></a></figure><p id="5e0b3f31-a15d-45cd-8881-464f1d84a66c" class=""><code>teapot.dae</code></p><p id="b31e9204-ef01-4cbb-8924-2cf9193f5785" class="">
+</p></div><div id="961e0488-8d43-485e-b4ec-4a67b0ff57d5" style="width:50%" class="column"><figure id="5b19bb43-01a7-4dfb-a53e-87594c025bcb" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/CBspheres.png"><img style="width:800px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/CBspheres.png"/></a></figure><p id="8cd57d0c-33e6-47a0-be06-3f6ba037c062" class=""><code>spheres.dae</code></p><figure id="76ca0fa9-f1f6-43e8-9471-04fb3ce9befe" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/banana.png"><img style="width:800px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/banana.png"/></a></figure><p id="938cf1b4-24e8-49c2-9ad9-b55dbd6267ba" class=""><code>banana.dae</code></p><p id="db9a7f90-9fb1-4a68-81fa-105b3ac1bcf2" class="">
+</p></div></div><h1 id="d93dc192-cc8e-45c4-b497-9a0b32c7bbba" class="">Part 2: Bounding Volume Hierarchy</h1><p id="22f8d66d-afb3-4cbc-bc40-d3354abc56a7" class=""><strong>BVH Construction Algorithm</strong>:</p><ul id="47f95c57-c75e-47f6-9076-5c6f590df2e9" class="bulleted-list"><li style="list-style-type:disc">First, iterate through all the primitives to get the overall bounding box of the current node, number of objects, and average centroid.</li></ul><ul id="4dca3c10-57d4-4413-bc14-7ab67b60ade8" class="bulleted-list"><li style="list-style-type:disc">Then, we check if the number of primitives is less than the <code>max_leaf_size</code>, returning a leaf node with the given start/end if we reach this base case. </li></ul><ul id="0c657053-dca0-4121-ad72-32efae20b80f" class="bulleted-list"><li style="list-style-type:disc">If we don’t fall under the base case, we get the longest axis, and we set the axis index to 0,1, or 2 if the longest axis is x, y, or z respectively.</li></ul><ul id="d39043ab-ed71-4869-aaf9-203c1d4d2a68" class="bulleted-list"><li style="list-style-type:disc">We then iterate through the primitives again, keep track of a list for the left node and one for the right node.<ul id="a7773110-269b-42e4-a427-ebbb8b4f54e8" class="bulleted-list"><li style="list-style-type:circle">For each primitive, we use the axis index to compare it’s centroid to the average centroid: <code>(*p)-&gt;get_bbox().centroid()[axis] &gt; average_centroid[axis]</code>, and if it is greater, then we push it to the <code>leftlist</code>, and otherwise push it to the <code>rightlist</code>.</li></ul></li></ul><ul id="b0297dfc-506f-441a-a39b-8630bc0ced9e" class="bulleted-list"><li style="list-style-type:disc">We then get the left and right nodes by recursing on the <code>leftlist</code> and <code>rightlist</code>. </li></ul><ul id="96496066-3202-4a3f-9c68-f0426497795a" class="bulleted-list"><li style="list-style-type:disc"><em>Splitting point heuristic</em>: using the overall bounding box of the current node, we simply get its longest axis, then we use the average centroid of all the primitives’ bounding boxes to get the split point for the given axis.</li></ul><p id="89d61468-6144-4459-b012-ec6452eb09af" class="">
+</p><p id="79a37bad-c4ec-4d1c-82c3-01a3a6f97b0d" class=""><strong>Images </strong>(large sized <em>.dae </em>files, normal shaded):</p><figure id="4df5d66a-e631-4c6c-b51f-33494dda81bd" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/CBlucy.png"><img style="width:800px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/CBlucy.png"/></a></figure><p id="fb842fd9-3ac1-4953-93b1-c4a3543142db" class=""><code>dae/sky/CBlucy.dae</code></p><figure id="3f655346-052b-494c-ada0-e31b7b396fa8" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/maxplanck.png"><img style="width:800px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/maxplanck.png"/></a></figure><p id="e06da61d-9ba1-4045-b988-1cc4337460e8" class=""><code>dae/meshedit/maxplanck.dae</code></p><p id="c0d064aa-a327-4499-9727-f9e09642f9ae" class="">
+</p><p id="6e4d7aea-e147-4123-9150-21f5d8864d5d" class=""><strong>Rendering Time Speedups </strong>(medium sized <em>.dae </em>files, normal shaded):<div class="indented"><p id="c4fa0af0-3c73-4e52-9947-c2da09edcbbc" class="">We found that rendering times significantly decreased after using the BVH data structure to preprocess the scene’s primitives. This is likely due to the large reduction in the number of calculations per ray; without the data structure, each ray would have to test for intersections with every single primitive in the scene, but with the data structure, each ray would only have to test for primitives inside of the bounding boxes that it intersected with. Below, we can see clearly that the rendering times dropped, and the intersection tests per ray dropped for both the <code>cow.dae</code> and <code>banana.dae</code>.</p></div></p><p id="ec83e630-f5d2-404b-8297-c71b58cd1f94" class="">
+</p><p id="7fa84aca-1b46-43bf-84d2-f4f8a7989247" class="">8 threads, 800x600 images: <code>./pathtracer -t 8 -r 800 600 -f &lt;model&gt;.png &lt;path_to_dae&gt;</code></p><table id="da7e97c5-b946-4aff-bf31-a8d89708b5b8" class="simple-table"><tbody><tr id="431da20c-4b2e-4d95-b174-2db56dd27ca7"><td id="K&gt;Lo" class="" style="width:189px"><code>cow.dae</code></td><td id="Rgac" class="" style="width:243px">Without BVH Acceleration</td><td id="~vZ_" class="" style="width:264px">With BVH Acceleration</td></tr><tr id="f5aacf73-f32d-4915-a29b-c80149f34deb"><td id="K&gt;Lo" class="" style="width:189px"># Primitives</td><td id="Rgac" class="" style="width:243px">5856 primitives</td><td id="~vZ_" class="" style="width:264px">5856 primitives</td></tr><tr id="9d0468fd-7a10-4256-ac79-653f927018d6"><td id="K&gt;Lo" class="" style="width:189px">Rendering Time (s)</td><td id="Rgac" class="" style="width:243px">26.0555 s</td><td id="~vZ_" class="" style="width:264px">00.0582 s</td></tr><tr id="17031990-5522-4657-9c56-35f65c7267b9"><td id="K&gt;Lo" class="" style="width:189px"># Rays Traced</td><td id="Rgac" class="" style="width:243px">479912 rays</td><td id="~vZ_" class="" style="width:264px">558395 rays</td></tr><tr id="1dcbeab2-5112-4dbd-9bfb-aa8c2cc12ab2"><td id="K&gt;Lo" class="" style="width:189px">Intersection Tests/Ray</td><td id="Rgac" class="" style="width:243px">1674.944325 intersection tests/ ray</td><td id="~vZ_" class="" style="width:264px">0002.205217 intersection tests/ray</td></tr></tbody></table><table id="f113c2a1-f980-4772-a9a1-e069cc25e3a1" class="simple-table"><tbody><tr id="40508eaf-b535-4765-938a-b26b98b27814"><td id="K&gt;Lo" class="" style="width:189px"><code>banana.dae</code></td><td id="Rgac" class="" style="width:243px">Without BVH Acceleration</td><td id="~vZ_" class="" style="width:264px">With BVH Acceleration</td></tr><tr id="2fdffec2-af17-4855-b3a0-a95eb453427c"><td id="K&gt;Lo" class="" style="width:189px"># Primitives</td><td id="Rgac" class="" style="width:243px">2458 primitives</td><td id="~vZ_" class="" style="width:264px">2458 primitives</td></tr><tr id="ff99934c-24cc-4106-846d-ec69a9d7159e"><td id="K&gt;Lo" class="" style="width:189px">Rendering Time (s)</td><td id="Rgac" class="" style="width:243px">10.6727 s</td><td id="~vZ_" class="" style="width:264px">00.0782 s</td></tr><tr id="7cc7c231-d408-44b1-8373-b241c4bdbe10"><td id="K&gt;Lo" class="" style="width:189px"># Rays Traced</td><td id="Rgac" class="" style="width:243px">479909 rays</td><td id="~vZ_" class="" style="width:264px">480000 rays</td></tr><tr id="90fc82a6-a5e4-4856-b80d-ea18d7a6f385"><td id="K&gt;Lo" class="" style="width:189px">Intersection Tests/Ray</td><td id="Rgac" class="" style="width:243px">566.160135 intersection tests/ ray</td><td id="~vZ_" class="" style="width:264px">000.527746 intersection tests/ray</td></tr></tbody></table><p id="aa409cda-f543-456e-81cd-f6d47e6365ec" class="">
+</p><figure id="04a01f13-bffc-495b-9229-8900ffdc39fc" class="link-to-page"><a href="https://www.notion.so/BVH-performance-test-logs-04a01f13bffc495b92298900ffdc39fc?pvs=21">BVH performance test logs</a></figure><p id="1cdf95bc-f7a8-4fcd-bdb8-b39f71098d5e" class="">
+</p><p id="b52cab00-f30c-4747-a49a-ad3c5faabb8f" class="">
+</p><h1 id="67166ed6-3f61-4a66-84dd-2511d80fa26c" class="">Part 3: Direct illumination</h1><p id="417c8045-f097-4a33-a3bd-0080b5ba77ff" class=""><strong>Implementation for </strong><strong><code>estimate_direct_lighting_hemisphere</code></strong> </p><ul id="6d4d5449-60d5-456d-90c3-7c8453b9e667" class="bulleted-list"><li style="list-style-type:disc">The general idea is to take the hit point <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span></span><span>﻿</span></span>=<code>hit_p</code> and the out-direction <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ω</mi><mi>r</mi></msub></mrow><annotation encoding="application/x-tex">\omega_r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>=<code>w_out</code> and take <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span></span><span>﻿</span></span>=<code>num_samples</code> random samples of the in-direction <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ω</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">\omega_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>=<code>w_in</code> for our Monte Carlo integration estimation.</li></ul><ul id="13c2630d-f1a8-439f-b71b-f34506fad458" class="bulleted-list"><li style="list-style-type:disc">This essentially involved iterating <code>num_samples</code> times, accumulating the sum of all the light from those samples in <code>L_out</code>, and then returning the average <code>L_out / num_samples</code>.<ul id="86438e45-4ed0-48c5-ab72-9f7720d13875" class="bulleted-list"><li style="list-style-type:circle">For each iteration, we essentially calculated the formula below. We use <code>isect.bsdf-&gt;f</code> for <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>r</mi></msub></mrow><annotation encoding="application/x-tex">f_r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, <code>inf_intersect.bsdf-&gt;get_emission()</code> for <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">L_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>, and calculated <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>cos</mi><mo>⁡</mo><msub><mi>θ</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">\cos \theta_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mop">cos</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> by dotting the unit vectors <code>dot(w_in, isect.n)</code>. Since we are using a uniform distribution, the probability function follows <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo stretchy="false">(</mo><msub><mi>ω</mi><mi>j</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">p(\omega_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord mathnormal">p</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span>=<code>1/(2 * PI)</code>.<figure id="50e7bac7-4343-4b00-9b12-16b2981e60f1" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/Untitled%201.png"><img style="width:336px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/Untitled%201.png"/></a></figure></li></ul></li></ul><p id="d4fee103-7948-4821-8a57-594e944693d8" class="">
+</p><p id="af484082-058d-4ea7-b2de-d0c85472c58d" class=""><strong>Implementation for </strong><strong><code>estimate_direct_lighting_importance</code></strong> </p><ul id="fd15ef66-1b68-49b3-be3d-87d3cbc14aeb" class="bulleted-list"><li style="list-style-type:disc">Our algorithm for the <code>estimate_direct_lighting_importance</code> used a similar approach to the prior, but instead of sampling from the hemisphere of the hit point, we calculated a Monte Carlo Integration estimate of the lights from all the light sources directly.</li></ul><ul id="50c96aa0-d140-4f0b-b7cb-5ddad34ae976" class="bulleted-list"><li style="list-style-type:disc">We essentially iterated through all the lights in the scene, and summed up the light from those lights in <code>L_out</code>, and returning the average <code>L_out / scene-&gt;lights.size()</code>.<ul id="a65fb7d0-df07-458f-b42a-b95233f14da4" class="bulleted-list"><li style="list-style-type:circle">For each light, we essentially used the approach from the previous method, using the formula:<figure id="73891669-c8c3-4d16-9fb7-f7494feae680" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/Untitled%202.png"><img style="width:384px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/Untitled%202.png"/></a></figure></li></ul><ul id="a371ff1c-e60d-4f48-8f37-4c918ae2b76e" class="bulleted-list"><li style="list-style-type:circle">We used the <code>SceneLight::sample_L</code> method to find <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ω</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">\omega_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>,  <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo stretchy="false">(</mo><msub><mi>ω</mi><mi>j</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">p(\omega_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord mathnormal">p</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span>, and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mi>i</mi></msub><mo stretchy="false">(</mo><mi>p</mi><mo separator="true">,</mo><msub><mi>ω</mi><mi>j</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L_i(p, \omega_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">p</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span></li></ul><ul id="4d677c83-2ebb-4688-a0ef-800a4c13d434" class="bulleted-list"><li style="list-style-type:circle">We calculated <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>cos</mi><mo>⁡</mo><msub><mi>θ</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">\cos \theta_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mop">cos</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> with <code>max(dot(wi, isect.n), 0.0)</code> , which we later used to check if the surface is directly lit by the lighting source.</li></ul><ul id="e0fa609d-c9a1-4ca7-b354-2bf8563d3a41" class="bulleted-list"><li style="list-style-type:circle">We used <code>BSDF::f</code> for our <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>r</mi></msub></mrow><annotation encoding="application/x-tex">f_r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> function.</li></ul></li></ul><p id="ac69b282-0be4-49bd-9bf2-5e16b6d1d4a4" class="">
+</p><p id="69fcc165-2295-45ae-b17b-cec32be0df5a" class=""><strong>Results</strong>:</p><p id="09dc4f53-5e97-44ab-b90c-554addf3a7d1" class="">Below, we can see that the <code>hemisphere</code> method generates a noisier image than the <code>importance</code> method. The uniform hemisphere method seems to take a lot more samples from rays that are not directly from the light source, while the importance captures more of the direct lighting information and converges quicker (less samples required). </p><div id="8c639213-4766-46d0-b368-4fba4183e4ed" class="column-list"><div id="3f2062ca-c0da-48ba-8e22-6cf2cfa45a5d" style="width:50%" class="column"><figure id="da6a0fa0-bdef-4139-a17a-07aeb9d1dfbf" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task33_bunny25_final.png"><img style="width:480px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task33_bunny25_final.png"/></a></figure><p id="527b6ec1-cc8a-4c68-9ea1-c56813553c61" class=""><code>bunny.dae</code> using <code>estimate_direct_lighting_hemisphere</code></p></div><div id="7a1ab524-f398-4c85-8697-baac317330ed" style="width:50%" class="column"><figure id="f79ee26b-47f9-497a-8fef-95be6a974a01" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task34_bunny3.png"><img style="width:480px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task34_bunny3.png"/></a></figure><p id="306ba416-b399-4db0-bf24-fb91f3e57528" class=""><code>bunny.dae</code> using <code>estimate_direct_lighting_importance</code></p></div></div><p id="2c708801-2fed-4e1c-890c-a8c56c44d8a4" class="">add sphere image, add line ot paragraph</p><p id="de44fa64-f46e-482e-af42-f753baf4cd4e" class="">
+</p><p id="6f56a919-8c19-4ec8-b178-e9c3c9fcfe4d" class="">
+</p><p id="35ee27de-2987-42a7-9b6e-ee7d80203734" class="">Below, we can test increasing the number of light ray samples per area light for the <code>CBbunny.dae</code> scene. All of the four images were rendered using the <code>importance</code> method. From the images, we can see that using just one light ray sample produces a very noisy image, and the noise is decreased as we increase the number of light ray samples.</p><div id="62c1a879-ffbe-49cf-acf1-2f39c842eb86" class="column-list"><div id="8134047d-fe81-4ee5-afa5-7ccce867ed63" style="width:50%" class="column"><figure id="b7038334-b53e-4efd-9e63-de9aa9e56c98" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/testbunny.png"><img style="width:708px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/testbunny.png"/></a></figure><p id="7811c1cc-6051-4e84-9cfd-811dbd535dda" class=""><code>-s 1 -l 1</code></p><figure id="abd47290-4007-440d-96a8-19c05d34f73a" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/testbunny16.png"><img style="width:708px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/testbunny16.png"/></a></figure><p id="ef95a155-2a1b-4776-8fc7-968cd036410d" class=""><code>-s 1 -l 16</code></p></div><div id="ac78f07d-0f11-4abb-933d-f1a91baa5673" style="width:50%" class="column"><figure id="1aa0436e-5007-4114-b19a-e1b1e39e6bea" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/testbunny4.png"><img style="width:708px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/testbunny4.png"/></a></figure><p id="5aed1d89-47de-45c1-986c-4347ef91dbf0" class=""><code>-s 1 -l 4</code></p><figure id="8bab3cf1-ccb9-40f8-a295-fad0edbcded9" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/testbunny2.png"><img style="width:708px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/testbunny2.png"/></a></figure><p id="f527abf9-20f7-4f56-8433-f292d360c4d6" class=""><code>-s 1 -l 64</code></p></div></div><p id="c443dfbe-4c03-43e0-a373-455319d8d2dd" class="">
+</p><h1 id="afc08d17-d230-4e9f-ba7b-8a82c854c48e" class="">Part 4: Global illumination</h1><p id="97b13290-9541-4957-984f-5b8e2e7db313" class=""><strong>Implementation for indirect lighting:</strong></p><ul id="7b464927-15f3-470f-92ce-a95edbccd851" class="bulleted-list"><li style="list-style-type:disc">We used a recursive approach. Starting with the original ray, we sample a new ray using <code>BSDF::sample_f</code>, and we keep decrementing the ray’s depth, until we hit the base case where the depth is 0 or the ray points outside of the frame.<ul id="c256d1b8-4b34-4912-809e-d1159a905d24" class="bulleted-list"><li style="list-style-type:circle">In each call, if we essentially get the one_bounce_radiance from the original ray, then we recurse on the sampled ray and add the light from that ray.</li></ul><ul id="d0c4656e-42f6-4048-805f-c0dbefbeabee" class="bulleted-list"><li style="list-style-type:circle">We use <code>BSDF::sample_f</code> to find <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ω</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">\omega_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>,  <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo stretchy="false">(</mo><msub><mi>ω</mi><mi>j</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">p(\omega_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord mathnormal">p</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span>, and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>r</mi></msub></mrow><annotation encoding="application/x-tex">f_r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> which will be used with <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>o</mi><mi>s</mi><mo stretchy="false">(</mo><msub><mi>ω</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">cos(\omega_i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">cos</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> to weight the light that comes from the recursive call.</li></ul></li></ul><p id="0b74195c-7b0c-4a8b-badf-85e26983bcb5" class="">
+</p><p id="3cff1934-59a6-4346-9f0a-b8c7f7bfca5e" class=""><strong>Various scenes with global illumination: </strong>(using settings: <code>-r 460 360 -s 1024 -m 5</code>)</p><div id="9c82f03e-8209-491b-9098-fbba9c18423d" class="column-list"><div id="9ba6b818-4144-421a-8919-290f73a4966e" style="width:33.33333333333334%" class="column"><figure id="4b2bf00f-a7a6-4cc9-ad3e-d2761d7d7671" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bench.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bench.png"/></a></figure><p id="c5f4fa8b-053c-41d6-a981-5bc279514d13" class=""><code>bench.dae</code></p><p id="a620e736-450e-4063-a276-d77b63ab36cd" class="">
+</p></div><div id="a824d192-6cd4-4287-b4cf-7ab10521eb1d" style="width:33.33333333333334%" class="column"><figure id="c09500fb-c563-4d67-875b-cf583dc6e43d" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny.png"><img style="width:331px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny.png"/></a></figure><p id="15c29620-70cd-4c7d-aa48-eb169ce76334" class=""><code>BCbunny.dae</code></p><p id="b9b7816a-6b08-42de-847a-9a5df254019b" class="">
+</p></div><div id="52a3721c-12c5-4098-8eaa-8a81dadcfbe9" style="width:33.33333333333333%" class="column"><figure id="93da06e2-8cab-49e1-8d41-0e04ec9c7e88" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/spheres.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/spheres.png"/></a></figure><p id="2b41bcd7-84b0-45b7-bd0a-e378fb8aaf7d" class=""><code>CBspheres_lambertian.dae</code></p></div></div><p id="4697e6ad-0d41-41fe-bb00-030735a41540" class=""><strong>Direct vs Indirect lighting:</strong></p><p id="986da878-2358-4a00-bb72-8441ea46782c" class="">Below, we can see that using direct light, we get the main lighting of all the objects. The indirect part is more of the lighting that bounces off of the surfaces from the direct light, giving a lot of the reflective light qualities on the objects in the scene.</p><div id="6ff8134c-eec8-435e-aeab-ccae383c8124" class="column-list"><div id="29711482-93d2-4d2b-bfdc-bbd2ca557829" style="width:50%" class="column"><figure id="6f0c031c-bce1-46db-b179-55e8bc0fe7f6" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task42_direct.png"><img style="width:480px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task42_direct.png"/></a></figure><p id="cdec8ad0-6e0c-4b34-a478-6dfa8d52e47a" class="">Only Direct: <code>./Debug/pathtracer -t 8 -s 1024 -l 16 -m 1 -r 480 360 -f ../images/task42_direct.png ../dae/sky/CBspheres_lambertian.dae</code></p></div><div id="9291b84c-f4d0-4cd0-89d9-a774038d0a49" style="width:50%" class="column"><figure id="0a556fb4-979e-4768-8b59-9fd39c943043" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task42_indirect.png"><img style="width:480px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task42_indirect.png"/></a></figure><p id="bdf6ad5a-b6c2-4caf-8bab-52d31222528a" class="">Only Indirect: <code>./Debug/pathtracer -t 8 -s 1024 -l 16 -m 2 -r 480 360 -f ../images/task42_indirect.png ../dae/sky/CBspheres_lambertian.dae</code></p></div></div><p id="bb4732cc-fa59-452b-9900-766cd94a2485" class="">
+</p><p id="e6d8b2b4-36fb-4913-86aa-4401bf0b9f5e" class=""><strong>Bounces 0-5 (separated, no accumulation):</strong></p><p id="89c19c1c-e68b-4604-8aef-84548a9f38ca" class="">Below, we can see all of the light that was traced from the different stages of bounces. The 0th bounce is just from lights that directly hit the camera, and the 1st bounce is just all of the direct light that hits the scene and immediately bounces to the camera. The 2nd and 3rd bounce add a lot of light that bounces around the scene a couple of times before hitting the camera. These bounces contribute a lot of the reflective properties of the diffuse materials (ie. the reflected light on the shadow parts of the bunny), which creates a more realistic and fuller image.</p><div id="0734913b-32ef-435a-95c7-fa91229a7870" class="column-list"><div id="26b26f53-f44f-4b50-a443-7818638db42c" style="width:50%" class="column"><figure id="735fda6c-5f6f-4012-972e-8cf599cc32c4" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_0_bounce.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_0_bounce.png"/></a></figure><p id="be6726e0-8aa8-4081-b9a4-55b0daab9d04" class="">0th bounce</p><figure id="83c0ad69-bdf1-4e30-b083-8dbcd17dc426" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_2_bounce.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_2_bounce.png"/></a></figure><p id="c2e75c70-9eb1-4c2f-8c56-7b8b63e60122" class="">2nd bounce</p><figure id="32f7d5ad-91bc-438c-aec9-b59bc32d6ed4" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_4_bounce.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_4_bounce.png"/></a></figure><p id="10221888-8620-43a6-8598-9735215ea538" class="">4th bounce</p><p id="eee60b25-c1cb-45c1-931f-0381584f63ce" class="">
+</p></div><div id="820e8b5c-a833-4516-95f4-cf65ea145c53" style="width:50%" class="column"><figure id="29b7420a-485c-4e9b-b2a2-f4a6648fcc24" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_1_bounce.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_1_bounce.png"/></a></figure><p id="2898602b-b382-457a-952e-b41974ddfecd" class="">1st bounce</p><figure id="1573dab8-a6a8-4494-a745-2901fda931a7" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_3_bounce.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_3_bounce.png"/></a></figure><p id="fd3e0fc6-6468-43a6-a588-fc273555fd78" class="">3rd bounce</p><figure id="ee6ef2fa-80cd-4ec3-bc4c-78b084dbf174" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_5_bounce.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_5_bounce.png"/></a></figure><p id="f8a2285d-490e-48ea-a609-0cff9578e0fa" class="">5th bounce</p></div></div><p id="c76caa2d-473d-4af3-82ca-40bb59d1b687" class=""><strong>Bounces 0-5 (separated, with accumulation):</strong></p><div id="eb75a8f8-ffa8-46f0-838a-ab5fbd2c11b1" class="column-list"><div id="137e7831-4487-48f1-ba54-fcca1b2de667" style="width:50%" class="column"><figure id="abab2583-ec57-4709-806c-9ce35892bbe7" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_0_accumulated_.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_0_accumulated_.png"/></a></figure><p id="b349aa8d-bd85-4e91-8924-a00b859e7f27" class="">0th Bounce</p><figure id="90256dc1-b9be-4c86-ba06-eb605be00ce6" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_2_accumulated_.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_2_accumulated_.png"/></a></figure><p id="aea1928a-6b12-4bf7-b3ec-dc9431a4671e" class="">2nd Bounce</p><figure id="521197cb-fb47-4bec-8189-b858a729f2be" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_4_accumulated_.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_4_accumulated_.png"/></a></figure><p id="6831f511-1ddb-41f1-badb-dc6fe10e0c46" class="">4th Bounce</p></div><div id="7991057e-73ae-4d04-a1ca-1d879249e127" style="width:50%" class="column"><figure id="007d2867-bc83-4073-9817-c9840d3bffd8" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_1_accumulated_.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_1_accumulated_.png"/></a></figure><p id="5c577f64-2127-429f-8115-6417017e2289" class="">1st Bounce</p><figure id="e9785952-dd44-4b5e-b2d0-da1deb528dc3" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_3_accumulated_.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_3_accumulated_.png"/></a></figure><p id="d269d134-0784-4758-b691-33d718df77ba" class="">3rd Bounce</p><figure id="62a2bfbe-1188-458a-86bb-64c95813ad9a" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_5_accumulated_.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_5_accumulated_.png"/></a></figure><p id="d5f0f35d-722a-49fa-b03e-b753792e6deb" class="">5th Bounce</p></div></div><p id="368dc6e3-89ee-4132-8d2e-1f3e1bdeaa53" class="">
+</p><p id="e1be6f88-d40b-4d73-addd-b6d3aec355d2" class=""><strong>Russian Roulette</strong></p><p id="2d4f28e4-0d23-47e9-8b09-0727ac638061" class="">With Russian roulette, we essentially terminate any given recursive call based on a probability (in this case using 0.3). The recursive results that are completed are normalized by this probability, to ensure that the correct brightness is maintained. </p><div id="10b32c6b-dc95-4a6a-8f29-bfd1ed612f47" class="column-list"><div id="62301e10-ac3f-4a93-bcc9-2fa132c733e6" style="width:50%" class="column"><figure id="19758c04-46e8-472c-88b9-4f40772272b3" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_0_accumulated_rr.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_0_accumulated_rr.png"/></a></figure><p id="5d3e4256-8a1c-4c24-bcf8-57f737080f59" class="">0th Bounce</p><figure id="46424526-b37d-4081-ada9-ac7a145ed9d0" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_2_accumulated_rr.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_2_accumulated_rr.png"/></a></figure><p id="c7018504-f71b-4b0e-aa79-43a167e00e77" class="">2nd Bounce</p><figure id="07c666b6-4107-45bf-abbe-5257f3f5a47a" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_4_accumulated_rr.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_4_accumulated_rr.png"/></a></figure><p id="ff2bd640-0902-47f6-b0f5-01e0f9f7c25d" class="">4th Bounce</p></div><div id="5d029c53-ce13-42d9-9d0f-f4d2c42b6f8d" style="width:50%" class="column"><figure id="4abac171-8281-416e-be68-c2f50d096408" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_1_accumulated_rr.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_1_accumulated_rr.png"/></a></figure><p id="20aa1091-1987-4710-937c-5ccb9e89782c" class="">1st Bounce</p><figure id="a568e1eb-14c5-4072-9b68-16830c5f3be1" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_3_accumulated_rr.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_3_accumulated_rr.png"/></a></figure><p id="77ed88aa-fbb7-49fc-99a2-647f276e0290" class="">3rd Bounce</p><figure id="7f8fd169-8e36-4e23-b678-307cb6b96a2c" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_100_accumulated_rr.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/bunny_100_accumulated_rr.png"/></a></figure><p id="0b3be708-7cf4-4f6c-b955-8f68bd142d83" class="">100th Bounce</p><p id="aa2badb9-d19b-4a6d-b3a3-2849b18b2ef9" class="">
+</p></div></div><p id="f220add1-b4d5-43b5-be51-5d233e53f79e" class=""><strong>Spheres with variable sample-per-pixel rates:</strong></p><p id="f7dda4ca-4e27-4133-81a0-8eff2df55b42" class="">All images were generated with 4 light rays, <code>CBspheres_lambertian.dae</code>:</p><div id="b84459a2-66ac-49d6-a50c-1925f4ac9f06" class="column-list"><div id="8b080504-b86b-4da4-97ea-5d9266856fb3" style="width:50%" class="column"><figure id="c42277be-73c9-4686-93ef-ed17b9075c7a" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere1.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere1.png"/></a></figure><p id="fbc79438-94bf-4621-becd-62ec9d6a4c87" class="">1 samples-per-pixel</p><figure id="e1644b20-f42c-482b-8a94-d8f81afafd04" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere2.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere2.png"/></a></figure><p id="16c90508-e9e5-4128-9dbb-3d650c3be17f" class="">2 samples-per-pixel</p><figure id="ea640036-c2d1-48c8-bc61-c7188faa4872" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere4.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere4.png"/></a></figure><p id="3caab544-6c81-4085-9ef5-6caced74ec53" class="">4 samples-per-pixel</p><figure id="2de8e96f-4956-4a96-a680-f9d2c4f62f9c" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere8.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere8.png"/></a></figure><p id="99afe50a-35f9-464b-a902-3b76f2ae814d" class="">8 samples-per-pixel</p></div><div id="7d0ad19e-bd75-4591-be2d-473d9e991ccc" style="width:50%" class="column"><figure id="7656617c-a90f-469b-8257-ea70ee2adf74" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere16.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere16.png"/></a></figure><p id="517b1384-400d-4f79-baad-42e71ceb6648" class="">16 samples-per-pixel</p><figure id="6c6a9d6d-763e-4de5-a7d6-fa9b5bb3ab2b" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere64.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere64.png"/></a></figure><p id="42dfb9e5-6989-4680-82b0-3b27aa34d581" class="">64 samples-per-pixel</p><figure id="589ff1b7-9317-467f-b14f-b5301b4efdd8" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere256.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere256.png"/></a></figure><p id="43de198f-2bae-4730-9e91-18e5a66dcfa0" class="">256 samples-per-pixel</p><figure id="36f3c053-4daa-4cd5-96ce-95c14f7d5ede" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere1024.png"><img style="width:460px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/writeupsphere1024.png"/></a></figure><p id="52d6b32e-c171-46db-a1a1-1fa5e392d0f3" class="">1024 samples-per-pixel</p></div></div><p id="aef671ef-784c-4dbf-9d41-4f47515e8a3b" class="">
+</p><p id="eccddb7a-1279-49e9-991b-0cdd6e3cb5e7" class="">
+</p><p id="56886b04-211c-42a0-acef-47bc26d763cf" class="">
+</p><h1 id="e43af9bb-6cba-4ed7-abb1-b2278192c5c1" class="">Part 5: Adaptive Sampling</h1><p id="71c83daf-cc5a-432f-b882-1bb7f692afc0" class="">Adaptive sampling is essentially adjusting the amount of samples of a given pixel based on how quickly the lighting converges to its “accurate” value. This saves time, as we don’t have to compute as many samples for pixels that don’t need more samples to converge.</p><p id="3707259e-d818-47a2-9af5-c29106369caf" class="">
+</p><p id="339d312b-0fac-4621-9872-76e8d64fb926" class=""><strong>Implementation of adaptive sampling:</strong></p><ul id="8c0037c1-392c-4b28-823a-319604f2067b" class="bulleted-list"><li style="list-style-type:disc">Building on our <code>PathTracer::raytrace_pixel</code> method, we modified it so that we keep track of mean <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi></mrow><annotation encoding="application/x-tex">\mu</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">μ</span></span></span></span></span><span>﻿</span></span> and standard deviation <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi></mrow><annotation encoding="application/x-tex">\sigma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span></span><span>﻿</span></span> based on the accumulated illuminance <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">s_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> and the accumulated squared illuminances <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">s_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>.<ul id="c2623cec-cc19-4269-82cc-1e638d4542fd" class="bulleted-list"><li style="list-style-type:circle">At intervals of some set iteration called <code>samplesPerBatch</code>, we calculate our value for <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span></span><span>﻿</span></span> to see if our results have adequately converged for a pixel. We calculated the convergence <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>=</mo><mn>1.96</mn><mo>⋅</mo><mfrac><mi>σ</mi><msqrt><mi>n</mi></msqrt></mfrac></mrow><annotation encoding="application/x-tex">I = 1.96 \cdot \frac{\sigma}{\sqrt{n}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.96</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.2334em;vertical-align:-0.538em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6954em;"><span style="top:-2.6259em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord sqrt mtight"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8059em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mtight" style="padding-left:0.833em;"><span class="mord mathnormal mtight">n</span></span></span><span style="top:-2.7659em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail mtight" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2341em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">σ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.538em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span><span>﻿</span></span>, and if <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span></span><span>﻿</span></span> exceeds the <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mi>T</mi><mi>o</mi><mi>l</mi><mi>e</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>c</mi><mi>e</mi><mo>⋅</mo><mi>μ</mi></mrow><annotation encoding="application/x-tex">maxTolerance \cdot \mu</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">ma</span><span class="mord mathnormal">x</span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal" style="margin-right:0.02778em;">er</span><span class="mord mathnormal">an</span><span class="mord mathnormal">ce</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">μ</span></span></span></span></span><span>﻿</span></span>, then we terminate. <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span></span><span>﻿</span></span> represents the 95% confidence interval that our sample is within the tolerance for our convergence. </li></ul></li></ul><p id="89986b54-d879-4d5e-a487-7a51af752159" class="">
+</p><p id="6ffb5a6a-86e9-4d25-b089-398624866527" class=""><strong>Results:</strong></p><p id="207e09d1-be44-4913-9139-06357332954a" class="">Below is the output, and the sample rate outputs for each pixel. In both the bunny and spheres images, we can see that in some parts, we took many samples, but in other parts of the images, we took significantly less samples to calculate the pixel’s values.</p><p id="52ef1682-e4a9-42fe-ae15-40b17845e5fb" class="">
+</p><p id="c7d9877d-4d60-4224-81fa-10b404b2563b" class=""><code>CBbunny.dae</code> , using command: <code>./Debug/pathtracer -t 8 -s 2048 -a 64 0.05 -l 1 -m 5 -r 480 360 -f ../images/task5_bunny2.png ../dae/sky/CBbunny.dae</code></p><div id="f87e3e9f-e8c9-41c8-abfb-6417beeaa99b" class="column-list"><div id="6b258ad0-56e7-4485-8f8c-760308e5ab63" style="width:50%" class="column"><figure id="eca88297-56b3-4de4-b8cb-2524dec8ee01" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task5_bunny2.png"><img style="width:480px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task5_bunny2.png"/></a></figure><p id="98f5bfb7-3d97-49c9-9d60-259275bf77db" class="">output</p><p id="a23e2c5a-8f28-479d-815e-2f4a6219521c" class="">
+</p></div><div id="cafa2391-762a-4fb9-8f86-edfeb5d84a7f" style="width:50%" class="column"><figure id="0487f5e1-98d0-4c64-9b8b-8c737f6e539c" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task5_bunny2_rate.png"><img style="width:480px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task5_bunny2_rate.png"/></a></figure><p id="0f80a16b-4ab2-4772-9a61-e90200d21b06" class="">rate output</p></div></div><p id="5847b2ae-147e-4b1e-b9fe-678eb40716d6" class=""><code>CBspheres_lambertian.dae</code> , using command: <code>./Debug/pathtracer -t 8 -s 2048 -a 64 0.05 -l 1 -m 5 -r 480 360 -f ../images/task5_spheres1.png ../dae/sky/CBspheres_lambertian.dae</code></p><div id="45194d74-0e26-4b40-bd98-31b188bd1d31" class="column-list"><div id="e16f67e5-b5b2-435f-99f8-eb842f6450e4" style="width:50%" class="column"><figure id="8bee3fd5-2f68-491a-9635-a4ff760cf869" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task5_spheres1.png"><img style="width:480px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task5_spheres1.png"/></a></figure><p id="0a6c92b7-6e6d-4901-b169-abd86754095e" class="">output</p></div><div id="6e0c6e04-1e01-4904-9226-5f7c09d34587" style="width:50%" class="column"><figure id="1ff859c5-ad9b-4f5b-832b-1ed2097cd166" class="image"><a href="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task5_spheres1_rate.png"><img style="width:480px" src="Project%203%20PathTracer%205eb8d1af32d346d09ee7f304c460aeb6/task5_spheres1_rate.png"/></a></figure><p id="d42b0ad9-c3a4-472f-ace7-a4cd6e93eaac" class="">rate output</p></div></div><p id="9c6e11ed-4da2-427a-8f53-5e39ef709d05" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,7 +1,706 @@
-<html>
-	<head>
-	</head>
-	<body>
-		Homework 4 index.html here
-	</body>
-</html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Project 4: Mesh sim</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="7fa4ed81-b28f-486c-9e80-3432c92274f5" class="page sans"><header><h1 class="page-title">Project 4: Mesh sim</h1><p class="page-description"></p></header><div class="page-body"><p id="2950326a-e4e3-4e55-afd8-c6518ab6155c" class=""><em>Brandon Wong: </em><a href="https://cal-cs184-student.github.io/hw-webpages-sp24-brandogn/">https://cal-cs184-student.github.io/hw-webpages-sp24-brandogn/</a> </p><p id="a24cedb1-3c0b-4154-889e-16c5da3e6f26" class=""><em>Gaurav Tyagi: </em><a href="https://cal-cs184-student.github.io/hw-webpages-sp24-GauravTyagi03/">https://cal-cs184-student.github.io/hw-webpages-sp24-GauravTyagi03/</a></p><p id="9af1fb7c-8726-4f33-ba63-ebe9c007f6f9" class="">Github: <a href="https://github.com/cal-cs184-student/hw4-clothsim-sp24-ballincat4">https://github.com/cal-cs184-student/hw4-clothsim-sp24-ballincat4</a></p><hr id="e1602956-06a4-4c14-bc0a-eae964624fcb"/><p id="b90f2462-8def-4b62-a63b-699581ed7784" class="">
+</p><h3 id="2a125e1b-2ecf-43d1-9654-ac1c077a8f25" class="">Overview</h3><p id="4e49fbf5-7a44-4751-aa41-73f0bbbd073a" class="">In this project, we implemented a real-time, physics-based simulation of a cloth. This includes modeling the cloth using mass points and springs, implementing the physics behind the mass points and springs, implementing collisions with external objects and itself, and writing shaders to render out the cloth. A lot of the challenges we encountered were related to C++ syntax and other programming bugs, which we solved by diligent debugging and referencing edstem, and other class resources. </p><p id="e97dade3-35b0-4052-bde3-fa89cd31da41" class="">One Specific Challenge: One important problem for part 2 was misunderstanding that external_accelerations were supposed to apply each acceleration to every single object, rather than apply the ith acceleration to the ith object. This ended up accessing undefined memory which outputted garbage values when trying to index past the length of external_accelerations.  </p><p id="99e12c03-4880-4ce3-8c41-f1d5a4c16132" class="">We included a variety of interesting visual bugs in the sections below for your reference. </p><p id="45a84496-377b-4432-af6a-2685c75f6ae6" class="">
+</p><h2 id="cfdd2101-e059-4ef0-b78b-9ad115487014" class="">Part 1: Cloth Structure Generation</h2><p id="f023f667-ad04-46c3-aa60-8e540a7909bb" class="">Here is the wireframe of the cloth from the generated grid of mass points and springs.</p><div id="9dbbeb9e-d6b7-4102-9f71-6e29cc9c34eb" class="column-list"><div id="b4cae8d4-6f99-4f72-be99-9c0389c525ce" style="width:50%" class="column"><figure id="a23db947-19e5-4b7a-bf5a-a6078f2d61e0" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled.png"><img style="width:708px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled.png"/></a><figcaption>Without shearing</figcaption></figure></div><div id="4a34a673-dd36-48ee-ae63-4eadc5a19fe6" style="width:50%" class="column"><figure id="f7033de3-802b-44fb-85eb-11e93bbbd13f" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%201.png"><img style="width:708px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%201.png"/></a><figcaption><em>With only shearing</em></figcaption></figure></div></div><figure id="c679fb19-cd9e-477e-bc38-2e34e36fac5e" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%202.png"><img style="width:708px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%202.png"/></a><figcaption>With all three (shearing, structural, bending)</figcaption></figure><p id="d63f04e5-754c-4642-adba-15fe67379e9f" class="">
+</p><h2 id="a44eb0cf-c589-46fb-be0b-d7ad467646f9" class="">Part 2: Simulation via Numerical Integration</h2><p id="ccf92272-7613-41f4-9f81-be3a7843cc28" class="">Below are some images to show the basic functionality of our simulation which involved various physics equations and simulation techniques.</p><p id="948f9913-de82-4164-b2c4-1bec0fabae7c" class="">
+</p><p id="66002b94-b321-4920-92e4-f4febe11f7dc" class=""><strong>Varying Spring Constants </strong><code><strong>ks</strong></code></p><p id="310ed25f-5825-4b01-bc29-98b3a4b36b66" class="">When the spring constant  <code>ks</code> is very low, (5) the cloth acts as though it is very thin, sagging a lot and deforming quite significantly around the top. When  <code>ks</code> is very high (10000), the cloth appears much stiffer, not deforming very much at the top of the bottom. The speed at which the cloth falls does not change very much.</p><div id="2bace1c0-ee55-424c-be11-c2a59abf7c55" class="column-list"><div id="18367896-c481-42f2-9171-d648ba1a9030" style="width:50%" class="column"><figure id="0a709b0d-ad49-4570-bab9-04aa60b6743f" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.46.51_PM.png"><img style="width:432px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.46.51_PM.png"/></a><figcaption>Pinned cloth With  <code>ks</code> = 5</figcaption></figure><p id="dbf0b34d-e88a-4b90-b8b5-05cd0084a829" class="">
+</p></div><div id="5d5820d5-b659-4876-b11c-c18186676576" style="width:50%" class="column"><figure id="20aa7df1-b712-405e-9b6d-4323759a58d0" class="image" style="text-align:left"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.47.22_PM.png"><img style="width:432px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.47.22_PM.png"/></a><figcaption>Pinned cloth with  <code>ks</code> = 10000</figcaption></figure><p id="8e7cb027-6e75-44a8-815a-d3b61d671779" class="">
+</p></div></div><p id="7999e0d2-e005-4db1-860e-b8dce7dfa3ed" class=""><strong>Varying Densities</strong></p><p id="feadebe3-a22c-4617-adb6-86c17b806eb7" class="">Density behaves in the opposite way that the spring constant behaves. When density is high, the cloth deforms more and almost appears thinner, whereas when density is low, the cloth deforms less and appears stiffer. Neither of these affect the rate at which it falls. </p><div id="555cb168-4dee-4c6e-8eae-2268b43ea339" class="column-list"><div id="4f379c78-0762-40dc-bc77-92cc748b958f" style="width:50%" class="column"><figure id="9aa03cd2-4208-493a-a0c2-07669d67c9c9" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.48.04_PM.png"><img style="width:680px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.48.04_PM.png"/></a><figcaption>density=1479</figcaption></figure></div><div id="ea65c52a-217b-4c80-a05b-7b0953ca1eac" style="width:50%" class="column"><figure id="fd3714f4-e79e-4180-94ef-a65b90bae846" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.48.33_PM.png"><img style="width:680px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.48.33_PM.png"/></a><figcaption>density=5</figcaption></figure></div></div><p id="b75ae81c-8a69-4ddf-a862-9274b2b4ecaf" class="">
+</p><p id="e0c264b0-446a-4419-9cd4-23ee8c40e86d" class=""><strong>Varying Dampening</strong></p><p id="9636b404-8718-4648-9683-f1fb80f1c387" class="">Damping affects the speed at which the cloth falls, as well as the number of ripples that form in the cloth as it approaches its rest state, however the final resting state of the cloth is the same regardless of which damping value we choose. </p><div id="d68d55b1-2ebf-46f0-bca8-2785611a4152" class="column-list"><div id="4cfd4091-6b50-4a67-9b8e-67220eed6b43" style="width:50%" class="column"><figure id="32b4bd29-8cd9-4eb3-ba2a-d26c5b476875" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.49.12_PM.png"><img style="width:2054px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.49.12_PM.png"/></a><figcaption>damping=~0.09</figcaption></figure></div><div id="65896e9a-df36-490f-8c15-737a6fafb5d5" style="width:50%" class="column"><figure id="94248661-636f-41a5-ab9a-6db971d4f89c" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.49.52_PM.png"><img style="width:2050px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.49.52_PM.png"/></a><figcaption>damping=~0.5</figcaption></figure></div></div><p id="e0c847fd-82f5-4353-bc80-054041cf92a9" class="">
+</p><p id="b3a16bae-fdce-4e0b-a6fe-b3c0db7e151c" class=""><strong>Another example</strong></p><p id="444f348d-b524-4199-b758-970a0779a3bd" class="">Here is another example of the cloth with all of its four corners pinned. The following image was rendered with the default parameters.</p><figure id="c6d8ea85-fb79-4720-893c-7fdb2a1e7fc1" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.34.22_PM.png"><img style="width:2050px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-03-29_at_6.34.22_PM.png"/></a><figcaption><code>scene/pinned4.json</code></figcaption></figure><p id="4246b87c-ebed-463d-b7e1-1b94498a5f84" class="">
+</p><h2 id="4ca848ce-5ac7-4af0-bac6-d09529227f8d" class="">Part 3: Collisions with Other Objects</h2><p id="16232fe3-1037-44b9-a1f0-ba5885300b31" class="">Below are some images to show how the cloth collides with external objects such as spheres and planes.</p><p id="7e59985f-338b-44f3-b07b-2a949c31c683" class="">
+</p><p id="59f8e418-f199-4893-b1f8-53297bd099dc" class=""><strong>Varying Spring Constant</strong></p><p id="c52425c6-471a-4f28-9843-6ae38579c9aa" class="">Below are some pictures of the shaded cloth from <code>scene/sphere.json</code> in its final resting state. As with the previous part, when the spring coefficient is smaller, the cloth appears to be less stiff, almost as if its thinner. We can see this in the screenshots, as when <code>ks</code> = 500, the cloth drapes over the sphere more tightly. We would expect this because the internal forces keeping nodes apart are weaker, so the cloth deforms to fit the shape of the sphere more easily. When <code>ks</code> = 50000, the cloth maintains more rigidity and the sides don’t deform nearly as much. </p><div id="4e6cdbef-6bae-48fa-89ce-3397cf999273" class="column-list"><div id="689ef0e4-9e42-4c74-9838-6f0336ef647d" style="width:33.333333333333336%" class="column"><figure id="d5432da6-856c-49ce-8c30-5f890f872589" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-04-01_at_4.12.15_PM.png"><img style="width:2052px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-04-01_at_4.12.15_PM.png"/></a><figcaption>ks=500 </figcaption></figure></div><div id="0de3580e-ace5-4881-91b3-6f3bae065803" style="width:33.333333333333336%" class="column"><figure id="cd168773-0e10-48de-a14f-9aecd7a8b47c" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-04-01_at_4.11.49_PM.png"><img style="width:2060px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-04-01_at_4.11.49_PM.png"/></a><figcaption>ks=5000</figcaption></figure></div><div id="23292945-71f8-4855-b32d-6c9492f12f02" style="width:33.33333333333333%" class="column"><figure id="4f752faf-124c-4706-85bb-ff4e51a98714" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-04-01_at_4.12.47_PM.png"><img style="width:2056px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-04-01_at_4.12.47_PM.png"/></a><figcaption>ks=50000</figcaption></figure></div></div><p id="76d52e1c-b76e-4c18-addc-c7c020c9e685" class="">
+</p><p id="00ec9e15-a1d8-466b-81a9-7e351c0032d1" class=""><strong>Plane interactions</strong></p><p id="3a0f7b0e-e9a7-4e66-9dea-1fdcda03dac7" class="">Here is an image of the cloth interacting with a plane. It starts out flat, then falls into a flat state on the plane.</p><figure id="472dcf2e-88f6-4e30-9076-67c629221847" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-04-01_at_4.14.58_PM.png"><img style="width:2858px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Screen_Shot_2024-04-01_at_4.14.58_PM.png"/></a><figcaption>The cloth sits very peacefully on the plane</figcaption></figure><h2 id="d5ef9cbc-f4fb-4bda-894c-da33e28004fc" class="">Part 4: Self-collision</h2><p id="fed1d725-f717-4c38-a0de-083515824006" class="">Below are some perspectives of the cloth as it falls to show how the cloth collides with itself. The first image is the initial resting state of the cloth, the left column is a view from above, and the right column is a view from the side.</p><figure id="c94b7624-d27f-43a0-8206-0f8bc7b519d6" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%203.png"><img style="width:240px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%203.png"/></a><figcaption>(initial resting state)</figcaption></figure><div id="2090d3a4-e94d-46a5-aecb-209bca5fecdd" class="column-list"><div id="471e4546-6d16-4c32-8ad8-5fdd072a102d" style="width:50%" class="column"><figure id="4f9e9e41-cb7d-407a-aab9-78e02b71cb6d" class="image" style="text-align:right"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%204.png"><img style="width:288px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%204.png"/></a></figure><figure id="f49f5c20-6c29-4db0-bf01-9e80e4d5c934" class="image" style="text-align:right"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%205.png"><img style="width:288px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%205.png"/></a></figure><figure id="91661b7e-8e0b-4e56-b82b-13571d196feb" class="image" style="text-align:right"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%206.png"><img style="width:288px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%206.png"/></a></figure></div><div id="e68d9495-73ae-4a31-8a10-8370eb9d38e3" style="width:50%" class="column"><figure id="32e86abf-cb75-4fff-bb22-73b5203e04c1" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/f10a2695-d2ad-415b-841a-7b2df858f5cb.png"><img style="width:288px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/f10a2695-d2ad-415b-841a-7b2df858f5cb.png"/></a></figure><figure id="5249bb64-d902-4bca-89a3-682af9e4b2a1" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%207.png"><img style="width:288px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%207.png"/></a></figure><figure id="2ad6d171-62d5-48f8-89f2-a16762a62082" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%208.png"><img style="width:288px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%208.png"/></a></figure></div></div><p id="b1c25357-6198-43b7-9dd2-6e2258c8aac4" class="">
+</p><h3 id="7be1663b-dbb5-4ec9-ae5d-5ad3b0f6964d" class="">Varying densities (g/cm^2)</h3><p id="a26e20d6-84a8-4757-9e9f-99b4b4274dca" class="">Higher densities tend to result in more wrinkles when falling on itself, while lower densities tend to be more smooth and sturdier.</p><div id="d876eca8-fe5a-41d6-a1a0-662a69cbb3fa" class="column-list"><div id="a420a9be-f3d1-4ecd-a677-a4d29321a817" style="width:33.33333333333333%" class="column"><p id="5bf04440-5247-4266-af4c-a308a257ab82" class="">1 g/cm^2, 5000 N/m</p><figure id="4a79b31c-8ce5-4fe6-a7b9-f43b63e0f32e" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%209.png"><img style="width:409px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%209.png"/></a></figure></div><div id="6e668e84-885c-4b22-9f69-9d471e62a6e6" style="width:33.33333333333334%" class="column"><p id="b5f79861-3f27-41f0-8369-6d6bf5f3c2b7" class="">15 g/cm^2, 5000 N/m</p><figure id="50a61784-56f2-4aaa-8e51-d46ce88da825" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2010.png"><img style="width:378px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2010.png"/></a></figure></div><div id="f2bb98cf-5dcb-416f-aa7e-ced755714dec" style="width:33.33333333333333%" class="column"><p id="0a29d3a8-50d9-4d18-bf5c-da1a07aaeba8" class="">2000 g/cm^2, 5000 N/m</p><figure id="adbcbedb-7012-4eeb-ae7a-7f5c0571a182" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2011.png"><img style="width:370px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2011.png"/></a></figure></div></div><figure id="3b7feba2-5b42-427b-a5b7-93be324f0d22" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2012.png"><img src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2012.png"/></a></figure><p id="5ed64f26-e7ef-4ac9-983a-52ba15eb274b" class="">
+</p><p id="6733ac30-3664-4a21-af0c-8301389c3798" class="">
+</p><h3 id="e6b8d2f7-749c-474e-9041-22563cb2cccb" class="">Varying <code>ks</code> (N/m)</h3><p id="b0c446c9-69b8-42fc-af43-2f8d7bcbf1e0" class="">A lower spring constant seems to result in a more crumpled up cloth, and a higher spring constant seems to result in a smoother, stiffer cloth.</p><p id="50263d84-b030-4580-a965-044c6664ebbf" class="">
+</p><div id="44b1aa50-9d75-4a8f-9b1f-603dc8704e72" class="column-list"><div id="2960dd67-cf44-4598-bb38-41435fad4ef5" style="width:33.33333333333333%" class="column"><p id="4600eee7-23b0-486c-a3a4-9c84c6154b81" class="">15 g/cm^2, 50 N/m</p><figure id="3e8374fc-ddfa-451e-bf32-ec3ac5e0a5c9" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2013.png"><img style="width:386px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2013.png"/></a></figure></div><div id="17a31973-da46-474f-931f-d31fe8e0d507" style="width:33.33333333333333%" class="column"><p id="c217f160-4944-4830-a6b9-ad3cd3637e5c" class="">15 g/cm^2, 5000 N/m</p><figure id="ddb912b9-7c58-475d-8899-a271d1ac9343" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2014.png"><img style="width:357px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2014.png"/></a></figure></div><div id="08791566-3216-428e-b0dc-757b8fb8d3df" style="width:33.33333333333333%" class="column"><p id="aaf45d08-40b5-4b06-805e-4a07a775c212" class="">15 g/cm^2, 10000 N/m</p><figure id="7268f6b5-dfa6-42ff-8a4a-e9f91e1b29b6" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2015.png"><img style="width:485px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2015.png"/></a></figure></div></div><p id="5ab5ee96-431a-4161-a30a-429887c64d8d" class="">
+</p><p id="756d9f5f-7429-454a-bd33-8d77a2fce5ed" class="">
+</p><h3 id="453eb44d-8212-4d22-83be-2d7f56d49da5" class="">Bugs </h3><p id="66418aa0-9b15-40b6-b4e3-4df0d4322bd6" class="">With extreme values of density and ks, the cloth floats and makes a weird pattern.</p><div id="5c70db1f-8db0-46d9-afd2-8b072b8f3bf8" class="column-list"><div id="52ab3e49-0eea-4535-9e2b-52643545a472" style="width:50%" class="column"><figure id="06dc2922-a361-4f0e-b4b6-ea5739cd21fb" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2016.png"><img style="width:336px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2016.png"/></a></figure><p id="1e3229f9-6ca7-42b6-9157-4f2f7eca1f5e" class="">
+</p></div><div id="0e912344-b7ac-4482-85db-bbcb6666b1d5" style="width:50%" class="column"><figure id="107abcda-24eb-4f3b-a5c6-a0cc70c5da41" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2017.png"><img style="width:439px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2017.png"/></a></figure><figure id="10d671ae-db10-4b98-b8a2-8149b1b5205f" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2018.png"><img style="width:479px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2018.png"/></a></figure></div></div><p id="408ef9f7-6bb2-4c22-b27f-6a15dc7478e5" class="">All three: 1 g/cm^2, 50000 N/m</p><p id="75d8978a-0762-4b24-bedb-9db895429aed" class="">
+</p><h2 id="be142bdd-196a-4adb-9913-5e39cbc1dafb" class="">Part 5: Shading</h2><p id="866360ee-05f2-4a11-adb9-7f96783690aa" class="">A shader program is a program that takes in mesh data and outputs values to the surface to render out. In this case, we have a vertex shader takes in vertex data and outputs important data such as the normal, position, tangent, and uv coordinates after maybe doing some processing or transformations. The fragment shader then takes in that data and interpolates and processes the data across each polygon and outputs the color which should be rendered for the appropriate pixels on the screen. Below are some examples of applications of shader programs.</p><p id="c916792a-b0da-4879-a0da-5e2b5617fea4" class="">
+</p><p id="90b200c3-f6f3-4afb-a2a3-7668c1b7c3f2" class=""><strong>Blinn-Phong</strong></p><p id="9a2919d5-a170-4a8b-b3e0-200602c78252" class="">At an abstract view, Blinn-Phong shading is a shader that builds on the Diffuse shader, which colors the surfaces of a mesh based on the surface normal. Phong shading adds a ambient and specular aspect to this, using the formula:<div class="indented"><p id="0098b5cf-5483-4312-978f-8606c2711031" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><msub><mi>k</mi><mi>a</mi></msub><msub><mi>I</mi><mi>a</mi></msub><mo>+</mo><msub><mi>k</mi><mi>d</mi></msub><mo stretchy="false">(</mo><mi>I</mi><mi mathvariant="normal">/</mi><msup><mi>r</mi><mn>2</mn></msup><mo stretchy="false">)</mo><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mi>n</mi><mo>⋅</mo><mi>l</mi><mo stretchy="false">)</mo><mo>+</mo><msub><mi>k</mi><mi>s</mi></msub><mo stretchy="false">(</mo><mi>I</mi><mi mathvariant="normal">/</mi><msup><mi>r</mi><mn>2</mn></msup><mo stretchy="false">)</mo><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mi>n</mi><mo>⋅</mo><mi>h</mi><msup><mo stretchy="false">)</mo><mi>p</mi></msup></mrow><annotation encoding="application/x-tex">L = k_a I_a + k_d (I / r^2) \max (0, n \cdot l) + k_s (I / r^2) \max (0, n \cdot h)^p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord">/</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">max</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord">/</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">max</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span></p></div></p><p id="0b6c174a-1ad0-43b0-9c20-0f4c05361b6c" class="">where <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mi>a</mi></msub></mrow><annotation encoding="application/x-tex">k_a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> is the constant for ambient lighting, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mi>d</mi></msub></mrow><annotation encoding="application/x-tex">k_d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> is the constant for diffuse lighting, and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>k</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">k_s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> is the constant for specular lighting.</p><p id="ac91698f-2148-4e65-865b-4dd706c9d221" class="">Below, we can see the different components, as well as the result with all of them combined. Ambient is simply an overall iridescence applied to all surfaces based on the ambient constant, diffuse is the base shader, and specular is the shiny aspects of the shader.</p><div id="91848625-2aa3-440c-bfe1-12fe2f6edc4b" class="column-list"><div id="e61dba5d-e2f8-48ef-847e-cd490453463d" style="width:50%" class="column"><figure id="279e8922-41bf-4e9e-b752-4e33ebb81f35" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2019.png"><img style="width:274px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2019.png"/></a><figcaption>Ambient (with k_s = 1.0)</figcaption></figure><figure id="2b2f6535-645d-43bb-b96b-27eff4b1323c" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2020.png"><img style="width:295px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2020.png"/></a><figcaption>Specular (with k_s = 1.0)</figcaption></figure></div><div id="0ec3083b-d326-4564-a6e6-850f24edb35e" style="width:50%" class="column"><figure id="80da32e7-2f2e-4716-931a-49a501475941" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2021.png"><img style="width:286px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2021.png"/></a><figcaption>Diffuse (with k_d = 1.0)</figcaption></figure><figure id="46af167d-0c04-462a-b769-c81a1a6f0f94" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2022.png"><img style="width:297px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2022.png"/></a><figcaption>All three (k_a = 0.1, k_d = 1.0, k_s = 0.8)</figcaption></figure></div></div><p id="b1bdcc29-663e-4d6d-910f-6ba37e5ebb6a" class="">
+</p><p id="7eb46011-b107-421c-bef9-cce42f1608da" class=""><strong>Texture mapping</strong></p><p id="dd43bce9-f3b3-4478-91c7-0d428a9571f2" class="">Below is a simple texture mapping shader using uv coordinates.</p><div id="a7bd217f-a52c-4580-8c26-ccf78a8b10f0" class="column-list"><div id="39426c25-2673-41dd-8968-8f49793c5558" style="width:50%" class="column"><figure id="350ea0a2-c136-4dd6-bcbc-bcf446c6c167" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2023.png"><img style="width:336px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2023.png"/></a><figcaption>Side view</figcaption></figure><p id="a8c543e7-18f5-425a-908e-040b30e9d477" class="">
+</p></div><div id="13b526a0-d0f5-4b31-9087-8d25323a33aa" style="width:50%" class="column"><figure id="f70fb0ab-aab0-4864-b747-e309fea750bc" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2024.png"><img style="width:336px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2024.png"/></a><figcaption>Top View</figcaption></figure></div></div><p id="e272b9f5-7c77-4e91-ac3d-91e63c1e12f7" class=""><strong>Bump Mapping / Displacement Mapping</strong></p><p id="6fb0b9df-0449-4a53-8670-3a125765d1b4" class="">Bump mapping involves taking the original Phong shading, and adjusting the normals of each shaded point based on some height texture that is uv mapped onto the surface. Displacement on the other hand does this and takes the next step of actually moving the points of the surface based on the height texture.</p><p id="79f36450-2a36-441e-a599-e565fb22a5e3" class="">Below, we can see how both images use the same position and mapped brick texture, but the displacement has bumps in the cloth to reflect where height differences are apparent. The bump map preserves the shape, but still applies the lighting texture. </p><div id="94aec4ff-2aab-47ca-9251-06c0599ca3ef" class="column-list"><div id="bee87d7b-3ef1-41fe-aa9e-c1675b229d48" style="width:50%" class="column"><figure id="fd3323f0-0060-4ec0-b739-7cf32c75c842" class="image" style="text-align:right"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2025.png"><img style="width:315px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2025.png"/></a><figcaption>Bump</figcaption></figure></div><div id="ef5f5d19-48b1-4502-b230-b0755c6dc26b" style="width:50%" class="column"><figure id="b9c05c07-6d36-49d0-894e-db60dc0fdf26" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2026.png"><img style="width:288px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2026.png"/></a><figcaption>Displacement</figcaption></figure></div></div><p id="196f18d3-7e48-416b-ac0d-371ac13b3fd0" class="">
+</p><p id="c4b57846-de9a-4ec0-bdd0-5bdec8ff2d52" class="">Variable Coarseness:</p><p id="3f9e881d-18af-45bf-95b6-4e391de02528" class="">With a higher mesh coarseness, the displacement shaders seemed to be a lot more accurate in that there seemed to be a higher resolution for the parts of the mesh that were raised. With a mesh coarseness of 16, the surface of the sphere is rather jagged instead of following the brick pattern that is present, while with a mesh coarseness of 128, the surface much more resembles the brick pattern. The Bump shading didn’t seem to see any effects from adjusting the mesh coarseness, likely because it’s not displacing any parts of the surface.</p><div id="cc604d14-6611-446d-a75c-30769a1fb615" class="column-list"><div id="3665b4f4-1463-4048-9a97-22cae5fe6f63" style="width:50%" class="column"><figure id="817333e8-e26f-454a-b53e-f622386f1b9e" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2027.png"><img style="width:318px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2027.png"/></a><figcaption>Bump shading with a mesh coarseness of 16</figcaption></figure><figure id="670f30b3-27fa-46a7-b45e-6ba27d60c8e3" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2028.png"><img style="width:331px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2028.png"/></a><figcaption>Bump shading with a mesh coarseness of 128</figcaption></figure></div><div id="c562140e-1ec9-4fe4-aa74-46f2abd65d7c" style="width:50%" class="column"><figure id="01849725-39e8-4959-b614-243827340fcc" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2029.png"><img style="width:347px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2029.png"/></a><figcaption>Displacement shading with a mesh coarseness of 16</figcaption></figure><figure id="3e764b3c-c3b4-4cd3-bb4b-9883e43cdfe1" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2030.png"><img style="width:418px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2030.png"/></a><figcaption>Displacement shading with a mesh coarseness of 128</figcaption></figure></div></div><p id="6c66a42f-b199-4fb4-b1ff-3daa0141fcb8" class="">
+</p><p id="2cf20da2-7717-4b07-b2b8-e7e16e31cdee" class=""><strong>Mirror Shading</strong></p><p id="97abc22a-a09d-4407-b8b0-9e1bd39cfe05" class="">Below is a basic mirror shader reflecting a cube environment.</p><figure id="dcfad7dd-6dae-4274-bb41-30f98c487422" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2031.png"><img style="width:356px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2031.png"/></a></figure><p id="7f68aeba-5155-46a2-853b-789007695945" class="">
+</p><p id="78d7a7dd-d435-4ebf-9454-73d1263dcdc4" class=""><strong>Custom</strong></p><p id="627f6039-d9ed-4b2b-b9f3-d572d9691313" class="">We combined the phong shading with texture mapping and mirror shading to create an interesting result of a metallic ballincat43 colored cloth! This essentially involved multiplying the reflection shader, texture shader, and phong shader together. We tried addition, and found that adding the reflection results in a laminated look, but adding the texture created a faded look, so we opted to multiplying them all together. We also had to adjust the constant for the diffuse shading since it was making the texture dark.</p><div id="e91dcc27-595b-4ec4-849b-5fe0231e1208" class="column-list"><div id="a95e0928-2858-4598-8d66-5d3c94adccab" style="width:56.25%" class="column"><figure id="2719cda9-8e09-4f8c-b0c9-170e44bd3d1f" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2032.png"><img style="width:384px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2032.png"/></a></figure></div><div id="4f58a560-6922-4114-aad8-e89f705fa5f4" style="width:43.75%" class="column"><figure id="fb52b85e-1c3f-4b85-a0c9-339d4feb7845" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2033.png"><img style="width:240px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2033.png"/></a></figure></div></div><p id="5f7ac6cf-9d43-4252-aa43-0eea9e21d297" class="">
+</p><p id="796769b2-c959-4a62-ab1d-3c7b7a166f4f" class="">
+</p><ul id="2e8784ae-07a3-4b56-886c-3cb3b998d71c" class="bulleted-list"><li style="list-style-type:disc"><del>Explain in your own words what is a shader program and how vertex<br/>and fragment shaders work together to create lighting and material<br/>effects.<br/></del></li></ul><ul id="bfd68a30-21a2-44cd-abc9-8a568869c6c0" class="bulleted-list"><li style="list-style-type:disc"><del>Explain the Blinn-Phong shading model in your own words. Show a<br/>screenshot of your Blinn-Phong shader outputting only the ambient<br/>component, a screen shot only outputting the diffuse component, a screen shot only outputting the specular component, and one using the entire<br/>Blinn-Phong model.<br/></del></li></ul><ul id="b25ce501-86a0-4f6e-9da2-5c87c232c9dc" class="bulleted-list"><li style="list-style-type:disc"><del>Show a screenshot of your texture mapping shader using your own custom texture by modifying the textures in </del><del><code>/textures/</code></del><del>.</del></li></ul><ul id="7a16bbb7-af6b-46c9-ac0e-4b2e1a4bd984" class="bulleted-list"><li style="list-style-type:disc"><del>Show a screenshot of bump mapping on the cloth and on the sphere.<br/>Show a screenshot of displacement mapping on the sphere. Use the same<br/>texture for both renders. You can either provide your own texture or use one of the ones in the textures directory, BUT choose one that&#x27;s not<br/>the default <br/></del><del><code>texture_2.png</code></del><del>. Compare the two approaches and<br/>resulting renders in your own words. Compare how your the two shaders<br/>react to the sphere by changing the sphere mesh&#x27;s coarseness by using <br/></del><del><code>o 16 -a 16</code></del><del> and then </del><del><code>o 128 -a 128</code></del><del>.</del></li></ul><ul id="0c160145-b054-46e4-b81b-f0f47025761e" class="bulleted-list"><li style="list-style-type:disc"><del>Show a screenshot of your mirror shader on the cloth and on the sphere.</del></li></ul><ul id="e177b049-021b-4dd8-b0ff-093bbfceddde" class="bulleted-list"><li style="list-style-type:disc"><del>Explain what you did in your custom shader, if you made one</del>.</li></ul><p id="154a615b-95db-408e-8230-c5a09d08095d" class="">
+</p><p id="9bde43b7-ae5b-4292-837e-d85941ba9143" class="">
+</p><h3 id="2cff27ee-dc93-42ce-9747-3ef38ae308f7" class="">Bugs</h3><p id="a7c1f7ba-5326-4db2-9770-e62cbdd4e602" class="">Below is an interesting texture bug that involved incorrect logic for adjusting the normal vectors when implementing the Bump and Displacement shaders. It wasn’t intended, but it looks pretty cool.</p><figure id="f5f28ab3-5479-4b64-b081-cf918d9f79cf"><div class="source"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/wierd_texture.mp4">https://prod-files-secure.s3.us-west-2.amazonaws.com/ae148431-84ff-4d5a-83d8-37227f8993b5/d4ed0fb9-9f81-4001-8fac-ddc979f11477/wierd_texture.mp4</a></div></figure><figure id="e87df216-d4bf-4cfb-9e11-e923b5e3546d" class="image"><a href="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2034.png"><img style="width:474px" src="Project%204%20Mesh%20sim%207fa4ed81b28f486c9e803432c92274f5/Untitled%2034.png"/></a></figure></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
